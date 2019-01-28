@@ -1,27 +1,45 @@
-import React from 'react';
+import React from 'react'
+import './Car.css'
+import Radium from 'radium'
 
-// function Car() {
-//     return (
-//         <h2>This is car component</h2>
-//     )
-// }
- 
-// const car = () => {
-//     return (
-//         <div>This is car component
-//             <strong>Test</strong>
-//         </div>
 
-//     )
-// }
+const Car = props => { 
+    const inputClasses = ['input']
 
-/* <button onClick={props.onChangeTitle}>Click</button> */
+    if(props.name !== '') {
+        inputClasses.push('.green')
+    } else {
+        inputClasses.push('red')
+    }
+    
+    if(props.name.length > 4) {
+        inputClasses.push('bold')
+    }
 
-export default props => ( //экспортируем компонент
-    <div style={{border: '1px solid #ccc', marginBottom: '10px', padding: '15px', display: 'block'}}>
+    const style = {
+        border: '1px solid grey',
+        boxShadow: '1px 2px 10px #000',
+        transition: 'all .5s',
+        ':hover': {
+            border: '1px solid #aaa',
+            boxShadow: '0 4px 15px 0 rgba(0, 0, 0, .25)',
+            cursor: 'pointer'
+        }
+    }
+
+    return ( //экспортируем компонент
+    <div className="Car" style={style}>
         <h3 style={{color: '#000'}}>Car name: {props.name}</h3>
         <p>Year: <strong>{props.year}</strong></p>
-        <input type='text' onChange={props.onChangeName} value={props.name}/>
+        <input
+            type='text' 
+            onChange={props.onChangeName} 
+            value={props.name}
+            className={inputClasses.join(' ')} //соединяем элементы из массива в строку
+            />
         <button onClick={props.onDelete}>Delete</button>
     </div>
-)
+    )
+}
+
+export default Radium(Car)

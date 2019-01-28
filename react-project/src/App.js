@@ -50,6 +50,11 @@ class App extends Component {
 
         <button onClick={this.toggleCarsHandler}>Toggle Cars</button>
 
+       <div style={{
+         width: 400,
+         margin: 'auto',
+         paddingTop: '20px'
+       }}>
         { this.state.showCars ?
           this.state.cars.map((car, index) => { //index - какой текущий index выводится в массиве
             return (
@@ -63,6 +68,7 @@ class App extends Component {
             )
           }) : null
         }
+      </div>
       </div>
     )
   }
