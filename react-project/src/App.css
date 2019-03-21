@@ -30,3 +30,9 @@
     transform: rotate(360deg);
   }
 }
+
+.toggleBtn {
+  margin-top: 30px;
+  width: 250px;
+  height: 50px;
+}

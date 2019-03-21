@@ -2,18 +2,24 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Car from './Car/Car.js';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary.js';
+import Counter from './Counter/Counter.js';
 
 
 class App extends Component {
-  
-  state = {
-    cars: [
-      {name: 'Ford', year: 2018},
-      {name: 'Audi', year: 2016},
-      {name: 'Mazda', year: 2010}
-    ],
-    pageTitle: 'React components',
-    showCars: false
+  //вызываем конструктор для компонента и для корректной работы передаем ему props в аргумент
+  constructor(props){
+    super(props)
+    
+    this.state = {
+      cars: [
+        {name: 'Ford', year: 2018},
+        {name: 'Audi', year: 2016},
+        {name: 'Mazda', year: 2010}
+      ],
+      pageTitle: 'React components',
+      showCars: false
+    }
   }
 
   onChangeName(name, index){
@@ -38,7 +44,20 @@ class App extends Component {
     this.setState({cars}) //переопределяем удаленный массив в state
   }
 
+
+  //первый этап компонента
+  componentWillMount(){
+    console.log('App mount');
+  }
+
+  //второй этап компонента. Этап пред-рендеринга
+  componentDidMount() {
+    console.log('App componentDidMount');
+  }
+
+  //третий этап жизни компонента, render
   render() {
+    console.log('App render');
     const divStyle = {
       textAlign: 'center',
       'color': 'red'
@@ -46,9 +65,12 @@ class App extends Component {
   
     return (
       <div className='App' style={divStyle}>
-        <h1>{this.state.pageTitle}</h1>
+        <h1>{this.props.title}</h1>
 
-        <button onClick={this.toggleCarsHandler}>Toggle Cars</button>
+        <Counter />
+        <hr />
+
+        <button className="toggleBtn" onClick={this.toggleCarsHandler}>Toggle Cars</button>
 
        <div style={{
          width: 400,
@@ -58,13 +80,15 @@ class App extends Component {
         { this.state.showCars ?
           this.state.cars.map((car, index) => { //index - какой текущий index выводится в массиве
             return (
+              <ErrorBoundary key={index}>
               <Car
-                key = {index}
                 name = {car.name}
+                index={index}
                 year = {car.year}
                 onChangeName = {event => this.onChangeName(event.target.value, index)} //передаем значение, лежащее в input и индекс, по которому ищем нужный элемент
                 onDelete = {this.deleteHandler.bind(this, index)} //bind контекст и передаем индекс машины, которую надо удалить
               />
+              </ErrorBoundary>
             )
           }) : null
         }
